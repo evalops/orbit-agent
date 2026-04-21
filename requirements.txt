@@ -3,7 +3,7 @@ dspy-ai>=3.0.0,<4.0.0
 typer==0.12.3
 rich==13.7.1
 pydantic==2.8.2
-python-dotenv==1.0.1
+python-dotenv==1.2.2
 
 # Web server and SMS
 Flask==3.0.3
