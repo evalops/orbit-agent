@@ -89,7 +89,7 @@ pytest==8.3.2
 pytest-asyncio==0.23.8
 pytest-cov==5.0.0
 python-dateutil==2.9.0.post0
-python-dotenv==1.0.1
+python-dotenv==1.2.2
 PyYAML==6.0.2
 pyyaml_env_tag==1.1
 referencing==0.36.2
