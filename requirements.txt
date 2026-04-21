@@ -13,7 +13,7 @@ gunicorn==22.0.0
 
 # Data and utilities
 PyYAML==6.0.2
-requests==2.32.3
+requests==2.33.0
 
 # Development and testing (optional, can be in separate requirements-dev.txt)
 pytest==8.3.2
