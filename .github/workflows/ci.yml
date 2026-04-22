@@ -22,33 +22,32 @@ jobs:
       - name: Verify dependency lock files are updated
         if: github.event_name == 'pull_request' && matrix.python-version == '3.12'
         run: |
-          git fetch --depth=1 origin "${{ github.base_ref }}"
+          set -euo pipefail
+          git fetch --depth=50 origin "${{ github.base_ref }}"
+          # Two-dot diff: lists files changed in HEAD relative to base tip.
+          # Does not require a merge base, so it works with shallow clones
+          # where actions/checkout does not fetch common history.
+          # Capture into a variable (not process substitution) so a
+          # non-zero exit from git propagates via `set -e`.
+          changed_files=$(git diff --name-only FETCH_HEAD..HEAD)
           requirements_changed=false
           requirements_lock_changed=false
           requirements_dev_changed=false
           requirements_dev_lock_changed=false
           while IFS= read -r file; do
             case "${file}" in
-              requirements.txt)
-                requirements_changed=true
-                ;;
-              requirements.lock)
-                requirements_lock_changed=true
-                ;;
-              requirements-dev.txt)
-                requirements_dev_changed=true
-                ;;
-              requirements-dev.lock)
-                requirements_dev_lock_changed=true
-                ;;
+              requirements.txt) requirements_changed=true ;;
+              requirements.lock) requirements_lock_changed=true ;;
+              requirements-dev.txt) requirements_dev_changed=true ;;
+              requirements-dev.lock) requirements_dev_lock_changed=true ;;
             esac
-          done < <(git diff --name-only FETCH_HEAD...HEAD)
+          done <<< "${changed_files}"
           if [[ "${requirements_changed}" == "true" && "${requirements_lock_changed}" != "true" ]]; then
-            echo "requirements.txt changed without updating requirements.lock."
+            echo "::error::requirements.txt changed without updating requirements.lock"
             exit 1
           fi
           if [[ "${requirements_dev_changed}" == "true" && "${requirements_dev_lock_changed}" != "true" ]]; then
-            echo "requirements-dev.txt changed without updating requirements-dev.lock."
+            echo "::error::requirements-dev.txt changed without updating requirements-dev.lock"
             exit 1
           fi
       - name: Install dependencies
