@@ -13,9 +13,9 @@ mypy==1.11.2
 pre-commit==3.8.0
 
 # Documentation
-mkdocs==1.6.0
-mkdocs-material==9.5.31
+mkdocs==1.6.1
+mkdocs-material==9.7.6
 
 # Type stubs
 types-PyYAML==6.0.12.20240808
-types-requests==2.32.0.20240712
+types-requests==2.33.0.20260408
