@@ -6,7 +6,6 @@ import logging
 import functools
 from .memory import load_context, append_entry
 
-
 logger = logging.getLogger(__name__)
 
 # ---- Retry decorator ----
