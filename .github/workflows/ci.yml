@@ -19,10 +19,42 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
+      - name: Verify dependency lock files are updated
+        if: github.event_name == 'pull_request' && matrix.python-version == '3.12'
+        run: |
+          git fetch --depth=1 origin "${{ github.base_ref }}"
+          requirements_changed=false
+          requirements_lock_changed=false
+          requirements_dev_changed=false
+          requirements_dev_lock_changed=false
+          while IFS= read -r file; do
+            case "${file}" in
+              requirements.txt)
+                requirements_changed=true
+                ;;
+              requirements.lock)
+                requirements_lock_changed=true
+                ;;
+              requirements-dev.txt)
+                requirements_dev_changed=true
+                ;;
+              requirements-dev.lock)
+                requirements_dev_lock_changed=true
+                ;;
+            esac
+          done < <(git diff --name-only FETCH_HEAD...HEAD)
+          if [[ "${requirements_changed}" == "true" && "${requirements_lock_changed}" != "true" ]]; then
+            echo "requirements.txt changed without updating requirements.lock."
+            exit 1
+          fi
+          if [[ "${requirements_dev_changed}" == "true" && "${requirements_dev_lock_changed}" != "true" ]]; then
+            echo "requirements-dev.txt changed without updating requirements-dev.lock."
+            exit 1
+          fi
       - name: Install dependencies
         run: |
           python -m pip install -U pip
-          pip install -r requirements-dev.txt
+          pip install -r requirements-dev.lock
       - name: Format check
         run: black --check .
       - name: Lint
