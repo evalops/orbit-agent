@@ -19,8 +19,7 @@ DB_PATH = DB_DIR / "orbit.db"
 def _init_db():
     """Initialize the SQLite database with required tables"""
     with sqlite3.connect(DB_PATH) as conn:
-        conn.execute(
-            """
+        conn.execute("""
             CREATE TABLE IF NOT EXISTS advice_log (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 timestamp INTEGER NOT NULL,
@@ -33,14 +32,11 @@ def _init_db():
                 score INTEGER,
                 critique TEXT
             )
-        """
-        )
-        conn.execute(
-            """
+        """)
+        conn.execute("""
             CREATE INDEX IF NOT EXISTS idx_advice_timestamp
             ON advice_log(timestamp)
-        """
-        )
+        """)
         conn.commit()
 
 
