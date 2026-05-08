@@ -105,7 +105,7 @@ tokenizers==0.23.1
 tqdm==4.67.3
 twilio==9.10.5
 typeguard==4.4.3
-typer==0.25.0
+typer==0.25.1
 types-PyYAML==6.0.12.20260408
 types-requests==2.33.0.20260503
 typing-inspection==0.4.2
