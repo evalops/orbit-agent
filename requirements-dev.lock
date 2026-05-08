@@ -107,7 +107,7 @@ twilio==9.10.5
 typeguard==4.4.3
 typer==0.25.0
 types-PyYAML==6.0.12.20260408
-types-requests==2.33.0.20260408
+types-requests==2.33.0.20260503
 typing-inspection==0.4.2
 typing_extensions==4.15.0
 urllib3==2.6.3
