@@ -2,13 +2,13 @@
 dspy-ai>=3.2.0,<4.0.0
 typer==0.25.1
 rich==15.0.0
-pydantic==2.13.3
+pydantic==2.13.4
 python-dotenv==1.2.2
 
 # Web server and SMS
 Flask==3.1.3
 Flask-Limiter==4.1.1
-twilio==9.10.5
+twilio==9.10.9
 gunicorn==26.0.0
 
 # Data and utilities
