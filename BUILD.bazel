@@ -1,0 +1,37 @@
+load("@pypi//:requirements.bzl", "requirement")
+load("@rules_python//python:defs.bzl", "py_library", "py_test")
+
+RUNTIME_DEPS = [
+    requirement("dspy-ai"),
+    requirement("Flask"),
+    requirement("Flask-Limiter"),
+    requirement("pydantic"),
+    requirement("PyYAML"),
+    requirement("python-dotenv"),
+    requirement("requests"),
+    requirement("rich"),
+    requirement("twilio"),
+    requirement("typer"),
+]
+
+py_library(
+    name = "orbit_agent",
+    srcs = glob(["orbit_agent/**/*.py"]),
+    data = glob([
+        "evals/**/*.yaml",
+        "playbooks/**/*.yaml",
+    ]),
+    imports = ["."],
+    visibility = ["//visibility:public"],
+    deps = RUNTIME_DEPS,
+)
+
+py_test(
+    name = "pytest",
+    srcs = glob(["tests/**/*.py"]),
+    main = "tests/pytest_main.py",
+    deps = [
+        ":orbit_agent",
+        requirement("pytest"),
+    ],
+)

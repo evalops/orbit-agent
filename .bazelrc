@@ -1,0 +1,26 @@
+common --enable_bzlmod
+common --announce_rc
+common --color=yes
+common --terminal_columns=120
+
+build --verbose_failures
+build --experimental_repository_cache_hardlinks
+build --experimental_convenience_symlinks=ignore
+
+test --test_output=errors
+test --test_summary=terse
+
+build:remote-gcp-dev --remote_executor=grpc://127.0.0.1:8980
+build:remote-gcp-dev --remote_timeout=3600
+build:remote-gcp-dev --remote_download_toplevel
+build:remote-gcp-dev --remote_default_exec_properties=container-image=docker://gcr.io/cloud-marketplace/google/rbe-ubuntu24-04@sha256:70a81b361f88e9bc3668e6f7f1a45e7036f15fdf073aede238d9b64c548cc0c0
+build:remote-gcp-dev --host_platform=//bazel/platforms:linux_x86_64
+build:remote-gcp-dev --platforms=//bazel/platforms:linux_x86_64
+build:remote-gcp-dev --extra_execution_platforms=//bazel/platforms:linux_x86_64
+build:remote-gcp-dev --spawn_strategy=remote
+build:remote-gcp-dev --strategy=Genrule=remote
+build:remote-gcp-dev --strategy=PyCompile=remote
+build:remote-gcp-dev --jobs=32
+test:remote-gcp-dev --test_output=errors
+
+try-import %workspace%/.bazelrc.user

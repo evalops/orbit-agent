@@ -15,6 +15,9 @@ build/
 # Local data
 .orbit/
 
+# Bazel
+/bazel-*
+
 # IDE
 .idea/
 .vscode/
