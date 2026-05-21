@@ -17,7 +17,7 @@ build:remote-gcp-dev --remote_default_exec_properties=container-image=docker://g
 build:remote-gcp-dev --host_platform=//bazel/platforms:linux_x86_64
 build:remote-gcp-dev --platforms=//bazel/platforms:linux_x86_64
 build:remote-gcp-dev --extra_execution_platforms=//bazel/platforms:linux_x86_64
-build:remote-gcp-dev --spawn_strategy=remote
+build:remote-gcp-dev --spawn_strategy=remote,local
 build:remote-gcp-dev --strategy=Genrule=remote
 build:remote-gcp-dev --strategy=PyCompile=remote
 build:remote-gcp-dev --jobs=32
