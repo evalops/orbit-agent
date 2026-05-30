@@ -109,7 +109,7 @@ tqdm==4.67.3
 twilio==9.10.9
 typeguard==4.4.3
 typer==0.25.1
-types-pyyaml==6.0.12.20260510
+types-pyyaml==6.0.12.20260518
 types-requests==2.33.0.20260518
 typing-extensions==4.15.0
 typing-inspection==0.4.2
