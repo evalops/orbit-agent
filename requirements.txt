@@ -1,6 +1,6 @@
 # Core AI and CLI (prefer latest v3 per dspy.ai)
 dspy-ai>=3.2.1,<4.0.0
-typer==0.25.1
+typer==0.26.5
 rich==15.0.0
 pydantic==2.13.4
 python-dotenv==1.2.2
@@ -19,5 +19,5 @@ requests==2.34.2
 pytest==9.0.3
 pytest-cov==7.1.0
 black==26.5.1
-ruff==0.15.14
+ruff==0.15.15
 mypy==2.1.0
