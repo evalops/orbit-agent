@@ -16,8 +16,8 @@ PyYAML==6.0.3
 requests==2.34.2
 
 # Development and testing (optional, can be in separate requirements-dev.txt)
-pytest==9.1.0
+pytest==9.1.1
 pytest-cov==7.1.0
 black==26.5.1
-ruff==0.15.17
+ruff==0.15.18
 mypy==2.1.0
