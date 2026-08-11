@@ -1,0 +1,1 @@
+{"scenario_id": "s", "prompt": "p", "timestamp": 1746864000.0, "latency_ms": 10.0, "advice": "x", "actions": ["a","b","c"], "metric_to_watch": "m", "risks": ["r1","r2","r3"], "critic_score": "high", "critic_feedback": "ok", "format_ok": true, "actions_count": 3, "risks_count": 3, "overlap_ratio": 0.1, "surprise": 42}

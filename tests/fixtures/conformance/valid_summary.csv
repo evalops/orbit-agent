@@ -1,0 +1,2 @@
+scenario_id,count,avg_critic_score,avg_overlap,avg_latency_ms
+seed_ceo_focus,1,8.00,0.12,4210
