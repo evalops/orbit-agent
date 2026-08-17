@@ -1,6 +1,6 @@
 # Core AI and CLI (prefer latest v3 per dspy.ai)
 dspy-ai>=3.2.1,<4.0.0
-typer==0.26.8
+typer==0.27.1
 rich==15.0.0
 pydantic==2.13.4
 python-dotenv==1.2.2
@@ -8,7 +8,7 @@ python-dotenv==1.2.2
 # Web server and SMS
 Flask==3.1.3
 Flask-Limiter==4.1.1
-twilio==9.10.9
+twilio==9.11.0
 gunicorn==26.0.0
 
 # Data and utilities
@@ -19,5 +19,5 @@ requests==2.34.2
 pytest==9.1.1
 pytest-cov==7.1.0
 black==26.5.1
-ruff==0.15.21
+ruff==0.16.3
 mypy==2.3.0
