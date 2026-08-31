@@ -1,7 +1,7 @@
 PY?=python3
 VENV?=venv
 
-.PHONY: bootstrap bootstrap-prod test lint fmt ci chat config hooks bazel-format bazel-mod-tidy bazel-check bazel-test bazel-test-remote bazel-rbe-smoke clean
+.PHONY: bootstrap bootstrap-prod test lint fmt ci chat config hooks contract bazel-format bazel-mod-tidy bazel-check bazel-test bazel-test-remote bazel-rbe-smoke clean
 
 bootstrap:
 	@bash scripts/bootstrap_venv.sh dev $(PY)
@@ -18,7 +18,10 @@ lint:
 fmt:
 	@$(VENV)/bin/black .
 
-ci: lint test
+contract:
+	@$(PY) -m conformance.verify --evidence-out .orbit/conformance/evidence.json
+
+ci: lint contract test
 
 chat:
 	@$(VENV)/bin/python -m orbit_agent.cli chat

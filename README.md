@@ -154,6 +154,38 @@ docker run -p 5000:5000 --env-file .env orbit-agent
 
 - Tool‑aware analysis: include minimal JSON to auto-run retention/funnel/runway/EV tools.
 
+## Conformance Contract
+
+The eval artifacts above — the JSONL records from `eval run`, the run summary
+from `eval report`, and the CSV/Markdown from `eval summary` — are a versioned
+**conformance contract**, not just internal output. Their field names, types,
+format rules, and CSV/MD columns are pinned so downstream operators and agents
+can parse them safely across releases.
+
+- Contract + rationale: [`contracts/eval-artifacts-v1.md`](contracts/eval-artifacts-v1.md)
+- Machine-readable spec: [`conformance/contract.py`](conformance/contract.py)
+
+A deterministic, dependency-light checker (no model calls) verifies both that the
+code hasn't drifted from the contract and that a given artifact conforms, and
+emits an evidence JSON citing inputs, per-rule decisions, and the verdict:
+
+```bash
+# Code-drift check only:
+python -m conformance.verify
+
+# Validate real artifacts and write evidence:
+python -m conformance.verify \
+  --jsonl .orbit/evals/personas.jsonl \
+  --csv reports/personas.csv --md reports/personas.md
+
+# Or:
+make contract
+```
+
+It also runs automatically in CI via `pytest -q`
+(`tests/test_contract_conformance.py`). Changing an artifact shape requires
+bumping `CONTRACT_VERSION` and the contract doc in the same change.
+
 ## Contributing
 
 ```bash
