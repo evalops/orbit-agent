@@ -1,0 +1,8 @@
+# Pin the lint contract to the rule set this repository has always enforced.
+# Without an explicit `select`, `ruff check .` uses whatever ruff's built-in
+# default happens to be, and that default changed in ruff 0.16: the same code
+# that passed under 0.15.21 reports 124 findings under 0.16.4. Declaring the
+# selection here keeps a ruff upgrade from silently redefining the gate.
+# To adopt more rules, add them here deliberately.
+[lint]
+select = ["E4", "E7", "E9", "F"]
