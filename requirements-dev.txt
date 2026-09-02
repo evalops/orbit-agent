@@ -8,8 +8,8 @@ pytest-asyncio==1.4.0
 
 # Code quality
 black==26.5.1
-ruff==0.15.21
-mypy==2.3.0
+ruff==0.16.5
+mypy==2.3.1
 pre-commit==4.6.2
 
 # Documentation
