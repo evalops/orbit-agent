@@ -21,8 +21,14 @@ jobs:
           python-version: ${{ matrix.python-version }}
       - name: Setup uv
         uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
+      # Dependabot cannot regenerate requirements.lock / requirements-dev.lock,
+      # so its pull requests are handled by .github/workflows/dependabot-lockfiles.yml,
+      # which recompiles both files and runs this same suite against the result.
       - name: Verify dependency lock files are updated
-        if: github.event_name == 'pull_request' && matrix.python-version == '3.12'
+        if: >-
+          github.event_name == 'pull_request' &&
+          matrix.python-version == '3.12' &&
+          github.event.pull_request.user.login != 'dependabot[bot]'
         run: |
           set -euo pipefail
           git fetch --depth=50 origin "${{ github.base_ref }}"

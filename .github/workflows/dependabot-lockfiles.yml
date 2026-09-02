@@ -1,0 +1,85 @@
+name: Dependabot lock files
+
+# Dependabot's pip ecosystem edits requirements.txt and requirements-dev.txt.
+# It cannot regenerate requirements.lock or requirements-dev.lock: those names
+# end in .lock, and dependabot-core only treats a file as a pip-compile output
+# when the name ends in .txt (python/lib/dependabot/python/pip_compile_file_matcher.rb).
+# The CI lock-sync gate therefore failed every Dependabot pull request. This
+# workflow recompiles both lock files with the same uv command recorded in their
+# headers, runs the full test suite against the recompiled result, and pushes the
+# refreshed locks back to the Dependabot branch.
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  refresh:
+    name: Refresh compiled lock files
+    if: >-
+      github.event.pull_request.user.login == 'dependabot[bot]' &&
+      github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.11"
+
+      - name: Setup uv
+        uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
+
+      - name: Recompile lock files
+        run: |
+          set -euo pipefail
+          # No --upgrade: uv reads the existing output file as preferences, so
+          # only the pins that the manifest change actually forces will move.
+          uv pip compile requirements.txt \
+            --output-file requirements.lock \
+            --no-annotate \
+            --python-version 3.11 \
+            --python-platform x86_64-unknown-linux-gnu
+          uv pip compile requirements-dev.txt \
+            --output-file requirements-dev.lock \
+            --no-annotate \
+            --python-version 3.11 \
+            --python-platform x86_64-unknown-linux-gnu
+
+      - name: Show the lock file changes
+        run: git --no-pager diff -- requirements.lock requirements-dev.lock
+
+      - name: Install the recompiled dependencies
+        run: uv pip install --system -r requirements-dev.lock
+
+      - name: Format check
+        run: black --check .
+
+      - name: Lint
+        run: ruff check .
+
+      - name: Run tests
+        run: pytest -q
+
+      - name: Commit the refreshed lock files
+        env:
+          HEAD_REF: ${{ github.event.pull_request.head.ref }}
+        run: |
+          set -euo pipefail
+          if git diff --quiet -- requirements.lock requirements-dev.lock; then
+            echo "lock files already match the manifests"
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add requirements.lock requirements-dev.lock
+          git commit -m 'build(deps): recompile requirements lock files'
+          git push origin "HEAD:${HEAD_REF}"
