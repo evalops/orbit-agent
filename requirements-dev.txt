@@ -10,11 +10,11 @@ pytest-asyncio==1.4.0
 black==26.5.1
 ruff==0.15.21
 mypy==2.3.0
-pre-commit==4.6.0
+pre-commit==4.6.2
 
 # Documentation
 mkdocs==1.6.1
-mkdocs-material==9.7.6
+mkdocs-material==9.7.7
 
 # Type stubs
 types-PyYAML==6.0.12.20260518
