@@ -1,5 +1,5 @@
 # Core AI and CLI (prefer latest v3 per dspy.ai)
-dspy-ai>=3.2.1,<4.0.0
+dspy-ai>=3.3.1,<4.0.0
 typer==0.27.2
 rich==15.0.0
 pydantic==2.13.5
